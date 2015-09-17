@@ -5,29 +5,22 @@ angular.module('twitchApp', [])
     $scope.streams = [];
     $scope.streamsDisplay = [];
     $scope.streamsTemp = [];
+    $scope.selected = 'all';
     
     // Local variables
     var streamers = ["freecodecamp", "medrybw", "storbeck", "terakilobyte", "habathcx", "RobotCaleb", "thomasballinger", "noobs2ninjas", "beohoff",];
     
-    // Functions
-    function moveSelected(add, remove) {
-      $(remove).removeClass('selected');
-      if (!$(add).hasClass('selected')) {
-        $(add).addClass('selected')
-      }
-    }
-    
     // Scope functions
     
     $scope.allClick = function() {
-      moveSelected('#all', '#online, #offline');
+      $scope.selected = 'all';
       
       $scope.streamsDisplay = $scope.streams.slice(0);
       $scope.streamsTemp = $scope.streamsDisplay.slice(0);
     }
     
     $scope.onlineClick = function() {
-      moveSelected('#online', '#all, #offline');
+      $scope.selected = 'online';
 
       $scope.streamsDisplay = $scope.streams.filter(function(stream) {
         return stream.status === 'online';
@@ -36,7 +29,7 @@ angular.module('twitchApp', [])
     }
     
     $scope.offlineClick = function() {
-      moveSelected('#offline', '#online, #all');
+      $scope.selected = 'offline';
 
       $scope.streamsDisplay = $scope.streams.filter(function(stream) {
         return stream.status === 'offline';
@@ -46,7 +39,7 @@ angular.module('twitchApp', [])
     
     $scope.performSearch = function() {
       $scope.streamsDisplay = $scope.streamsTemp.filter(function(stream) {
-        return stream.name.match(new RegExp($('#search').val(), 'i'));
+        return stream.name.match(new RegExp(document.querySelector('#search').value, 'i'));
       });
     }
     
